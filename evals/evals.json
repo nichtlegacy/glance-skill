@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "evals": [
+    {
+      "id": "custom-api-media-stats",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/custom-api-media-stats.md",
+      "must_haves": [
+        "Uses type: custom-api",
+        "Uses environment variables for URL and token values",
+        "Uses Glance-native utility classes",
+        "Uses a reasonable cache duration",
+        "Avoids introducing a companion backend"
+      ]
+    },
+    {
+      "id": "compose-selfhosted-page",
+      "category": "pages",
+      "prompt_file": "../fixtures/prompts/compose-selfhosted-page.md",
+      "must_haves": [
+        "Produces a full pages: block",
+        "Uses valid page width and column structure",
+        "Uses group or split-column only where appropriate",
+        "Balances dense and utility widgets coherently"
+      ]
+    },
+    {
+      "id": "extension-boundary-decision",
+      "category": "extension",
+      "prompt_file": "../fixtures/prompts/extension-boundary-decision.md",
+      "must_haves": [
+        "Explains why extension is justified",
+        "Names the required Widget-* response headers",
+        "Mentions allow-potentially-dangerous-html trust implications",
+        "Does not pretend custom-api can solve the same problem cleanly"
+      ]
+    },
+    {
+      "id": "package-community-widget",
+      "category": "community",
+      "prompt_file": "../fixtures/prompts/package-community-widget.md",
+      "must_haves": [
+        "Includes community-style YAML",
+        "Uses env vars instead of local values",
+        "Mentions README.md, preview.png, and meta.yml expectations",
+        "Mentions reusable options or configuration guidance"
+      ]
+    },
+    {
+      "id": "custom-api-dual-mode-widget",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/custom-api-dual-mode-widget.md",
+      "must_haves": [
+        "Uses type: custom-api",
+        "Exposes layout behavior through options such as small-column, compact, or collapse-after",
+        "Shows awareness of small versus full column density",
+        "Keeps the widget copy-pasteable"
+      ]
+    },
+    {
+      "id": "custom-api-subrequests-widget",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/custom-api-subrequests-widget.md",
+      "must_haves": [
+        "Uses subrequests only for related supporting data",
+        "Avoids introducing a companion backend",
+        "Uses Glance-native template structure",
+        "Mentions or accounts for cache behavior"
+      ]
+    },
+    {
+      "id": "custom-api-operational-hygiene",
+      "category": "operations",
+      "prompt_file": "../fixtures/prompts/custom-api-operational-hygiene.md",
+      "must_haves": [
+        "Uses env vars instead of local values",
+        "Mentions secret handling or file-backed secret alternatives when appropriate",
+        "Avoids fragile query-string handling when parameters are involved",
+        "Reflects operational concerns such as cache, reloads, or rate limits"
+      ]
+    },
+    {
+      "id": "compose-startpage",
+      "category": "pages",
+      "prompt_file": "../fixtures/prompts/compose-startpage.md",
+      "must_haves": [
+        "Uses slim, centered, startpage-like structure when appropriate",
+        "Prioritizes search and quick-access widgets",
+        "Keeps the layout minimal and operationally realistic"
+      ]
+    },
+    {
+      "id": "compact-stat-widget",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/compact-stat-widget.md",
+      "must_haves": [
+        "Produces a widget suitable for a small column",
+        "Uses compact Glance-native typography and layout primitives",
+        "Avoids over-designing a narrow utility widget"
+      ]
+    },
+    {
+      "id": "full-width-media-widget",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/full-width-media-widget.md",
+      "must_haves": [
+        "Uses a full-width pattern such as cards-grid or a rich list layout",
+        "Feels appropriate for media-heavy content",
+        "Uses Glance-native primitives instead of arbitrary custom styling"
+      ]
+    },
+    {
+      "id": "page-recipe-selection",
+      "category": "pages",
+      "prompt_file": "../fixtures/prompts/page-recipe-selection.md",
+      "must_haves": [
+        "Chooses a sensible upstream page recipe",
+        "Explains why the selected page family fits the request",
+        "Produces a coherent page structure instead of a random widget pile"
+      ]
+    },
+    {
+      "id": "native-design-primitives",
+      "category": "design",
+      "prompt_file": "../fixtures/prompts/native-design-primitives.md",
+      "must_haves": [
+        "Uses real Glance utility classes or variables",
+        "Avoids leaning on unrelated built-in widget CSS classes",
+        "Produces output that visually fits Glance"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Build a Glance `custom-api` widget for a self-hosted service where the URL, token, and one optional query parameter must stay configurable. Keep the widget copy-pasteable, use good secret hygiene, and account for Glance-specific operational concerns such as caching, reloads, and query parameter handling.

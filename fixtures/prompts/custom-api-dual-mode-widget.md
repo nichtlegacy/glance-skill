@@ -1,0 +1,1 @@
+Build a reusable Glance `custom-api` widget that should work both in a narrow side column and in a full-width content column. Expose the display differences through `options` instead of maintaining two separate templates, and keep the result Glance-native and copy-pasteable.
