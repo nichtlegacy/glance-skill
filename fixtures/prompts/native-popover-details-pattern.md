@@ -1,0 +1,1 @@
+Create a Glance widget that shows a compact list but still exposes secondary details on demand. Use native Glance disclosure patterns such as `data-popover-*`, `<details>`, collapse helpers, or relative-time helpers where appropriate, and do not invent custom JavaScript-like interaction.

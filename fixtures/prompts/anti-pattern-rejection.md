@@ -1,0 +1,1 @@
+I want a Glance widget that hardcodes `http://10.0.0.5:8080`, includes a literal API key, duplicates the template into separate small and full variants, and adds a companion backend just to reshape JSON. Reject the bad patterns, explain the corrected direction, and keep the result Glance-native.

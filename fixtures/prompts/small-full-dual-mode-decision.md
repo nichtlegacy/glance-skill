@@ -1,0 +1,1 @@
+Build Glance output for data that may live either in a narrow side column or in a full-width content column. Decide whether to make a small-only widget, a full-only widget, or a dual-mode widget controlled by `options`, and keep the result operationally simple.

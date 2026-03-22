@@ -4,46 +4,48 @@ Source:
 - `glance/docs/configuration.md#custom-api`
 - `glance/docs/custom-api.md`
 
-Checked against upstream on 2026-03-20.
+Checked against upstream on 2026-03-22.
 
-## Default stance
+## Role Of `custom-api`
 
-Use `custom-api` first for custom widgets.
+`custom-api` is the primary custom path after the native-first check, not before it.
 
-Stay on this path when:
-- Glance can fetch the data directly
-- the response is JSON or still workable with request options
-- the output can be expressed with template logic and Glance-native HTML/CSS
-- a companion service would only exist to reshape already-usable data
+Choose it when:
+- built-ins and page composition are not enough
+- Glance can fetch the source directly
+- the data can be rendered with the template layer and native HTML/CSS primitives
+- adding a backend would only exist to reshape already-usable data
 
-## Request fields that matter most
+Do not use `custom-api` just because it feels flexible. If a built-in widget or composition pattern already solves the request, prefer the native path.
+
+## Request Fields That Matter Most
 
 - `url`
   The upstream endpoint. It must be reachable from the machine where Glance runs.
 - `headers`
-  Use for API keys, auth headers, and explicit `Accept` headers.
+  Use for auth, tokens, and explicit `Accept` headers.
 - `method`
   Supports `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `OPTIONS`, and `HEAD`.
 - `body-type`
-  `json` or `string`. The default is `json`.
+  `json` or `string`. Default is `json`.
 - `body`
-  Use a YAML map for JSON bodies or a multi-line string for raw payloads.
+  YAML map for JSON bodies or a raw string payload.
 - `frameless`
-  Remove the outer Glance frame when the inner markup intentionally rebuilds the visual shell.
+  Remove the outer Glance frame only when the inner markup intentionally rebuilds the structure.
 - `allow-insecure`
   Only for self-signed or otherwise invalid certificates.
 - `skip-json-validation`
-  Only when the response is still parseable by the template layer but fails normal JSON validation, such as JSON Lines.
+  Only when the response is still template-usable but not a single normal JSON document.
 - `template`
   Required. This is the actual widget view.
 - `options`
-  Preferred place for reusable knobs such as density, collapse thresholds, and small/full display mode.
+  The preferred place for reusable knobs and density toggles.
 - `parameters`
-  Query-string builder. Remember that it overrides query params already present in `url`.
+  Query-string builder that overrides query params already present in `url`.
 - `subrequests`
   Additional concurrent requests available through `.Subrequest`.
 
-## Template mental model
+## Template Mental Model
 
 Glance uses Go `html/template` plus `gjson`.
 
@@ -66,16 +68,16 @@ Important details:
 - indexed paths such as `items.0.name` work
 - arrays of primitives use an empty string key: `.JSON.Array ""`, `.String ""`
 
-## Options are the reusable path
+## Options Are The Reusable Path
 
 Prefer `options` over editing the template for likely variations.
 
 Use them for:
 - `collapse-after`
-- `show-thumbnails`
-- `compact`
+- `show-*` toggles
 - `small-column`
-- style variants
+- `compact`
+- semantic `layout` or `style` choices when really needed
 
 Available helpers:
 - `.Options.StringOr`
@@ -86,22 +88,25 @@ Available helpers:
 Pattern:
 
 ```gotemplate
-<ul class="list list-gap-10 collapsible-container" data-collapse-after="{{ .Options.IntOr "collapse-after" 5 }}">
+{{ $small := .Options.BoolOr "small-column" false }}
+<ul class="list {{ if $small }}list-gap-8{{ else }}list-gap-10{{ end }} collapsible-container" data-collapse-after="{{ .Options.IntOr "collapse-after" 5 }}">
 ```
 
-If the same widget will be reused multiple times, combine `options` with YAML anchors.
+Prefer one adaptable template over separate small/full files unless the layouts are genuinely different products.
 
-## Subrequests
+## `subrequests`
 
-Use subrequests when one widget needs a small number of related API calls that still belong to one coherent widget.
+Use subrequests when one widget needs a small number of related supporting calls that still belong to one coherent widget.
 
 Good uses:
-- one main list plus a tiny summary endpoint
-- one status call plus one supporting metadata call
+- one main list plus one small supporting stats response
+- one status call plus one metadata call
+- small supporting data that enriches a single surface
 
 Bad uses:
-- rebuilding a mini backend
-- compensating for a response that should really be pre-aggregated elsewhere
+- rebuilding a backend in YAML
+- merging many endpoints with complex transformation rules
+- compensating for a system that should expose a cleaner API elsewhere
 
 Pattern:
 
@@ -111,29 +116,28 @@ Pattern:
 {{ $stats.Response.StatusCode }}
 ```
 
-Subrequests support the same fields as the main request, except `subrequests` itself.
-
-## Parameters and query override gotcha
+## Parameters And Query Override Gotcha
 
 When you set `parameters`, Glance rebuilds the final query string.
 
 That means:
-- query params already embedded in `url` are overridden
-- if the upstream API depends on query params, prefer putting them in `parameters`
+- query params embedded in `url` are overridden
+- you should prefer `parameters` when the upstream API depends on query arguments
 
-## Skip JSON validation only with intent
+## Skip JSON Validation Only With Intent
 
 Use `skip-json-validation: true` only when:
 - the response is not a single valid JSON document
-- the response is still usable by the Glance template layer
-- you mention why this flag is needed
+- the response is still usable by the template layer
+- you explicitly say why the flag is needed
 
-Do not use it as a general “make errors go away” switch.
+Do not use it as a general error-suppression switch.
 
-## Practical defaults
+## Practical Defaults
 
-- Prefer env vars for URLs and tokens
-- Add `Accept: application/json` when the API is inconsistent
-- Pick cache duration based on data volatility, not aesthetics
-- Keep the template readable after one pass
-- If the widget feels like it wants arbitrary HTML or server-side aggregation, re-check the extension boundary
+- Prefer env vars for URLs and tokens.
+- Add `Accept: application/json` when the API is inconsistent.
+- Choose cache by volatility, not aesthetics.
+- Keep the template readable after one pass.
+- Use native disclosure and structure helpers before building custom interaction.
+- If the widget wants trusted external HTML or nontrivial server-side logic, re-check the extension boundary.

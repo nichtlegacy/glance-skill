@@ -1,72 +1,83 @@
 # Widget Catalog
 
-Use this file when you need a compact source of truth for built-in Glance widgets, their best-fit column types, and the styles that matter during layout decisions.
+Use this file as the compact native-first fit guide for built-in Glance widgets and composition primitives.
 
-These fit recommendations are heuristics derived from upstream docs, templates, and preconfigured pages. They are not hard validation rules unless explicitly stated.
+These recommendations are reuse heuristics, not hard validation rules unless explicitly noted.
 
-## Layout-first rules
+## Native-First Use Order
 
-- `small` columns are best for utility, status, and compact list widgets.
-- `full` columns are best for content-heavy widgets, card layouts, and multi-item feeds.
-- `head-widgets` are best for broad horizontal widgets that can span a page naturally.
-- `split-column` only belongs inside a `full` column.
-- `group` is a composition tool, not a content type. Its fit depends on the widgets inside it.
+When choosing how to solve a Glance request, start here:
+1. built-in widget already matches the data/problem
+2. `group`, `split-column`, `head-widgets`, or grouped bookmarks solve the structure
+3. one `custom-api` widget fills the remaining gap
+4. `extension` only if the remaining gap truly needs it
 
-## Built-in widgets
+## Composition Toolkit
 
-| Widget | Best fit | Styles or variants | Use when | Watch out for |
-| --- | --- | --- | --- | --- |
-| `rss` | `small`, `full`, `head-widgets` | `vertical-list`, `detailed-list`, `horizontal-cards`, `horizontal-cards-2` | news, blog feeds, link-heavy content | `detailed-list` and horizontal styles are effectively `full` column patterns |
-| `videos` | `full`, `head-widgets` | `horizontal-cards`, `vertical-list`, `grid-cards` | YouTube or playlist-driven media layouts | `grid-cards` and `horizontal-cards` want width; avoid cramming into `small` columns |
-| `hacker-news` | `full`, `split-column` | list-based | developer/news feed in a content spine | long lists benefit from `collapse-after` |
-| `lobsters` | `full`, `split-column` | list-based | engineering/news layouts similar to Hacker News | tag filtering changes feed density |
-| `reddit` | `small` or `full` depending on style | `vertical-list`, `horizontal-cards`, `vertical-cards` | subreddit-driven dashboards | `vertical-cards` is the small-column style; `horizontal-cards` is full-column oriented |
-| `search` | `full`, slim page focus | search box | startpages and entry pages | strongest in a single-column or centered layout |
-| `group` | inherits inner widget fit | tabbed widget container | switch between related feeds or views | cannot contain `group` or `split-column` |
-| `split-column` | `full` only | masonry via `max-columns` | side-by-side widgets, wide dashboards, masonry-like feeds | do not place inside `group` |
-| `custom-api` | any, if designed for the target column | author-defined | custom widgets from JSON APIs | the template author must design for `small` vs `full` explicitly |
-| `extension` | any, if justified | external HTML | custom widgets that need their own server-side output | only use when `custom-api` is not enough |
-| `weather` | `small` | built-in forecast layout | compact utility/weather glance | best in utility columns |
-| `todo` | `small`, `full` | built-in todo layout | personal task list | feels most natural in utility-heavy side columns |
-| `monitor` | `small`, `full` | default and compact monitor variants | service status, uptime, response time | compact/full presentation matters a lot; see `styling-and-primitives.md` |
-| `releases` | `small`, `full` | list-based | software release tracking | long repo lists need collapse tuning |
-| `docker-containers` | `small`, `full` | status list | homelab/container monitoring | can become noisy if too many containers are shown |
-| `dns-stats` | `small` | stats list | DNS and network utility pages | utility-focused, not a hero widget |
-| `server-stats` | `small` | system stats | CPU, RAM, disk utility widgets | best near other status widgets |
-| `repository` | `small`, `full` | repo summary | source control or project overview | good as supporting content, not usually a page anchor |
-| `bookmarks` | `small`, slim startpages | grouped links | launchers, browser homepages, quick nav | strongest when groups stay concise |
-| `change-detection` | `small`, `full` | list-based | monitoring changed pages | tune density with `collapse-after` |
-| `clock` | `small` | timezone list | utility/time displays | naturally a side widget |
-| `calendar` | `small`, `full` | current and legacy versions | scheduling and upcoming events | utility-first unless event density is high |
-| `markets` | `small`, `head-widgets`, `full` | ticker list | finance-focused dashboards | works well in `head-widgets` or stacked small-column sections |
-| `twitch-channels` | `full`, `small` with care | channel list/cards | creator/live dashboards | density depends on channel count |
-| `twitch-top-games` | `small`, `full` | ranked list | gaming pages | official recipe places it in `small` |
-| `iframe` | depends entirely on embed content | embedded site | when Glance just needs to host an external view | operationally heavier than native widgets |
-| `html` | any, if static | raw static HTML | static snippets or small embeds | no remote fetching, so it is not a replacement for `custom-api` |
+| Primitive | Best fit | Reuse angle | Watch out for |
+| --- | --- | --- | --- |
+| `group` | any slot where several related views compete | native tabs for alternate views | cannot contain `group` or `split-column` |
+| `split-column` | `full` columns | side-by-side or masonry-like content | do not place inside `group` |
+| `head-widgets` | broad page summaries | horizontal hero band above columns | not for dense utility rails |
+| `bookmarks` with groups | startpages, launchers, utility navigation | grouped links without custom work | keep groups concise |
 
-## Compact vs full heuristics
+## Built-In Widgets By Intent
 
-Use compact or narrow-friendly widgets in `small` columns when they are:
+| Widget | Best fit | Use when | Watch out for |
+| --- | --- | --- | --- |
+| `search` | slim or single-`full` pages | startpages and entry actions | strongest when it is visually primary |
+| `rss` | `small`, `full`, `head-widgets` | feeds, blogs, news, mixed content pages | horizontal styles want width |
+| `videos` | `full`, `head-widgets` | creator and media layouts | `grid-cards` needs width |
+| `weather` | `small` | utility forecast widget | usually belongs in a side rail |
+| `todo` | `small`, `full` | native task management | often better as utility than page anchor |
+| `monitor` | `small`, `full` | uptime and service-health views | density choice matters a lot |
+| `releases` | `small`, `full` | software release tracking | long repo lists need collapse tuning |
+| `docker-containers` | `small`, `full` | container status and grouping | can get noisy if overstuffed |
+| `dns-stats` | `small` | DNS/network utility sections | naturally utility-oriented |
+| `server-stats` | `small` | host metrics and system utility rows | not usually a hero widget |
+| `repository` | `small`, `full` | repo summaries and project side content | usually supporting content, not a full page spine |
+| `calendar` | `small`, `full` | scheduling and upcoming events | default fit is utility unless density is high |
+| `markets` | `small`, `head-widgets`, `full` | finance rows and broad summary bands | strong head-widget candidate |
+| `twitch-channels` | `small`, `full` | creator/live dashboards | count and density change the fit |
+| `twitch-top-games` | `small`, `full` | gaming discovery and ranked lists | upstream recipes often place it in `small` |
+| `iframe` | depends on embed content | when Glance must host another view | operationally heavier than native widgets |
+| `html` | any static slot | static snippets or local markup | not a substitute for remote data fetching |
+| `custom-api` | any, if intentionally designed for the slot | one missing custom data surface | still must be shaped for `small` or `full` |
+| `extension` | any, if justified | trusted external HTML or server-side rendering | last resort, not convenience path |
+
+## Native Interaction And Disclosure
+
+Built-in or native markup interactions to reuse before inventing custom behavior:
+- group tabs via `group`
+- weather hover behavior for richer detail within a compact widget
+- todo hover/delete interactions as proof that native widgets can already be interactive
+- container grouping patterns in `docker-containers`
+- `data-popover-*` for hover details
+- `<details>` for explicit disclosure
+- `collapsible-container` for long lists
+- `data-dynamic-relative-time` for relative timestamps
+
+## Fit Heuristics
+
+Choose `small`-column solutions when the content is:
 - metric-dense
 - line-based
-- quick to scan
+- utility-focused
 - naturally stacked
 
-Use full-width widgets when they are:
+Choose `full`-column solutions when the content is:
 - card-oriented
 - media-heavy
-- feed-heavy
-- tabbed or horizontally structured
+- feed-dense
+- visually central to the page
 
-Community patterns worth copying:
-- `small-column: true|false` options for custom widgets that need dual-mode layouts
-- `compact` or `style: compact` options for monitor-like widgets
-- card grids for media widgets in full columns
+Choose dual-mode `custom-api` when the same information should survive both placements with option-driven density changes.
 
-## Strong upstream examples
+Choose a suite when overview/live/recent or status/discovery surfaces naturally diverge.
 
-- `Startpage` recipe: `search` + `monitor` + `bookmarks` in a slim single-column layout
-- `Markets` recipe: stacked `markets` in a `small` column, `rss`/`group`/`videos` in the `full` spine
-- `Gaming` recipe: `twitch-top-games` in `small`, `group` plus `videos` in `full`, compact `reddit` in `small`
+## Strong Native Recipes To Remember
 
-Use `page-recipes.md` for full YAML-oriented compositions.
+- Startpage: `search` + `monitor` + `bookmarks`
+- Markets/news: stacked `markets` plus `rss`/`videos` in a full spine
+- Gaming/media: `twitch-top-games` in `small`, `group` and `videos` in `full`
+- Wide discovery page: `split-column` inside a `full` column instead of custom CSS grids

@@ -1,0 +1,1 @@
+Design Glance support for a service that has overview stats, current activity, and recent items. Decide whether this should be one monolithic widget or a suite of widgets, explain the tradeoff, and choose the layout shape that fits Glance page composition best.

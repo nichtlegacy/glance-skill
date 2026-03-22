@@ -1,0 +1,1 @@
+I want a Glance dashboard section for search, a few content feeds, and a quick status rail. Before building anything custom, decide whether built-in widgets and page composition are already enough. Prefer native Glance primitives if they solve the request cleanly instead of inventing a `custom-api` widget.

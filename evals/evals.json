@@ -128,6 +128,66 @@
         "Avoids leaning on unrelated built-in widget CSS classes",
         "Produces output that visually fits Glance"
       ]
+    },
+    {
+      "id": "native-first-capability-choice",
+      "category": "native",
+      "prompt_file": "../fixtures/prompts/native-first-capability-choice.md",
+      "must_haves": [
+        "Checks whether built-in widgets or page composition already solve the request",
+        "Prefers native Glance primitives when they are sufficient",
+        "Does not force a custom-api widget for a built-in problem"
+      ]
+    },
+    {
+      "id": "native-popover-details-pattern",
+      "category": "design",
+      "prompt_file": "../fixtures/prompts/native-popover-details-pattern.md",
+      "must_haves": [
+        "Uses Glance-native disclosure patterns such as data-popover-* or <details>",
+        "Avoids inventing custom JavaScript-like interaction",
+        "Keeps secondary information out of the always-visible layout"
+      ]
+    },
+    {
+      "id": "community-packaging-complete",
+      "category": "community",
+      "prompt_file": "../fixtures/prompts/community-packaging-complete.md",
+      "must_haves": [
+        "Covers widget YAML, env vars, README guidance, preview guidance, and meta.yml",
+        "Keeps the output shareable and copy-pasteable",
+        "Avoids local URLs and literal secrets"
+      ]
+    },
+    {
+      "id": "anti-pattern-rejection",
+      "category": "guardrails",
+      "prompt_file": "../fixtures/prompts/anti-pattern-rejection.md",
+      "must_haves": [
+        "Rejects hardcoded local URLs or literal API keys",
+        "Rejects unnecessary extension or companion-backend choices",
+        "Rejects duplicated small/full templates when options would suffice"
+      ]
+    },
+    {
+      "id": "widget-suite-vs-single-widget",
+      "category": "architecture",
+      "prompt_file": "../fixtures/prompts/widget-suite-vs-single-widget.md",
+      "must_haves": [
+        "Decides deliberately between a monolithic widget and a widget suite",
+        "Uses page-slot and column-fit reasoning",
+        "Recognizes overview/live/recent splits when they improve reuse"
+      ]
+    },
+    {
+      "id": "small-full-dual-mode-decision",
+      "category": "architecture",
+      "prompt_file": "../fixtures/prompts/small-full-dual-mode-decision.md",
+      "must_haves": [
+        "Chooses between small-only, full-only, or dual-mode intentionally",
+        "Uses options rather than file forks when dual-mode is appropriate",
+        "Matches density to the chosen column fit"
+      ]
     }
   ]
 }

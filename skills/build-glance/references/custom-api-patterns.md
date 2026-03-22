@@ -3,183 +3,142 @@
 Source:
 - `glance/docs/configuration.md#custom-api`
 - `glance/docs/custom-api.md`
-- upstream preconfigured pages and community widget conventions
+- your current `glance-*` widget archetypes
 
-Checked against upstream on 2026-03-20.
+Checked against upstream and local patterns on 2026-03-22.
 
-## Pattern 1: Compact stats for `small`
+## Pattern 0: Native Gate Before Custom Work
 
-Use for:
-- service totals
-- compact health summaries
-- small side-column status widgets
+Before using any pattern in this file, verify that the request is not already solved by:
+- a built-in widget
+- page composition with `group`, `split-column`, or `head-widgets`
+- native popovers, `<details>`, or collapse helpers
 
-```yaml
-- type: custom-api
-  title: Media Stats
-  cache: 10m
-  url: https://${MEDIA_URL}/api/stats
-  headers:
-    x-api-key: ${MEDIA_API_KEY}
-  template: |
-    <div class="dynamic-columns list-gap-20">
-      <div>
-        <div class="color-highlight size-h3">{{ .JSON.Int "movies" | formatNumber }}</div>
-        <div class="size-h6">MOVIES</div>
-      </div>
-      <div>
-        <div class="color-highlight size-h3">{{ .JSON.Int "shows" | formatNumber }}</div>
-        <div class="size-h6">SHOWS</div>
-      </div>
-    </div>
-```
+If the problem is already native, stop there.
 
-Why it works:
-- quick to scan
-- no decorative wrapper needed
-- suited to a narrow column
-
-## Pattern 2: Rich list for `full`
+## Pattern 1: Compact Utility Monitor For `small`
 
 Use for:
-- bookmarks
+- service overviews
+- queue/status monitors
+- quick stats blocks
+- side-rail utility widgets
+
+Strong archetypes:
+- `glance-sabnzbd`
+- `glance-tracearr` overview
+- parts of `glance-cowboy`
+
+Traits:
+- compact stats or short lists
+- restrained metadata
+- explicit empty/error/configured states
+- quick scan rhythm
+
+Typical controls:
+- `small-column: true`
+- `collapse-after`
+- a small number of `show-*` flags
+
+## Pattern 2: Dual-Mode Entity Or Presence Widget
+
+Use when the same data may live in either `small` or `full`.
+
+Strong archetypes:
+- `glance-playstation`
+- `glance-discord`
+
+Traits:
+- one template adapts by `small-column` and `compact`
+- hero content stays readable in both modes
+- optional blocks are controlled by `show-*`
+- fallback chains and state normalization are central
+
+Use this when the width changes density, not the fundamental product.
+
+## Pattern 3: Widget Suite Instead Of One Monolith
+
+Use when a service naturally splits into different surfaces.
+
+Strong archetypes:
+- `glance-tracearr` overview/live/dashboard
+- `glance-tautulli` dashboard plus recent media lists
+- `glance-audiobookshelf` grouped suite
+
+Choose a suite when:
+- overview, current activity, and recent items want different page slots
+- one template would become overstuffed
+- different views belong in `small` versus `full`
+- a `group` makes the suite easier to consume
+
+Do not force one widget just because all data comes from one service.
+
+## Pattern 4: Rich List With Native Disclosure
+
+Use for:
+- recent media lists
 - release feeds
-- event or queue lists
-- article lists with lightweight metadata
+- queue/job lists
+- technical rows with optional detail
 
-```yaml
-- type: custom-api
-  title: Latest Items
-  cache: 15m
-  url: https://${ITEMS_URL}/api/items
-  options:
-    collapse-after: 6
-  template: |
-    <ul class="list list-gap-10 collapsible-container" data-collapse-after="{{ .Options.IntOr "collapse-after" 6 }}">
-    {{ range .JSON.Array "items" }}
-      <li>
-        <a class="size-h4 color-primary-if-not-visited block text-truncate" href="{{ .String "url" }}">{{ .String "title" }}</a>
-        <ul class="list-horizontal-text">
-          <li data-dynamic-relative-time="{{ .String "published" | parseTime "rfc3339" | unix }}"></li>
-          <li>{{ .String "source" }}</li>
-        </ul>
-      </li>
-    {{ end }}
-    </ul>
-```
+Strong archetypes:
+- `glance-tautulli` recent lists
+- representative release widgets using popovers and collapse
 
-Why it works:
-- uses standard Glance list rhythm
-- keeps metadata compact
-- exposes collapse behavior cleanly
+Traits:
+- main row stays compact
+- secondary detail moves into `data-popover-*` or `<details>`
+- long lists use `collapsible-container`
+- timestamps use relative-time helpers where useful
 
-## Pattern 3: Media cards for `full`
+## Pattern 5: Validation-Heavy Metrics Widget
 
 Use for:
-- recent videos
-- media discovery
-- thumbnail-led content that would feel cramped in `small`
+- Home Assistant entity bundles
+- dashboards where values must be normalized or clamped
+- widgets with optional extras and hard-required core fields
 
-```yaml
-- type: custom-api
-  title: Recent Videos
-  cache: 30m
-  url: https://${VIDEO_API}/recent.json
-  frameless: true
-  template: |
-    <div class="cards-grid collapsible-container" data-collapse-after-rows="3">
-    {{ range .JSON.Array "items" }}
-      <div class="card widget-content-frame thumbnail-parent">
-        <img class="thumbnail" src="{{ .String "thumbnail" }}" alt="" loading="lazy">
-        <div class="margin-bottom-widget padding-inline-widget flex flex-column grow">
-          <div class="margin-top-10 margin-bottom-auto">
-            <a class="color-primary-if-not-visited text-truncate-2-lines" href="{{ .String "url" }}">{{ .String "title" }}</a>
-          </div>
-          <ul class="list-horizontal-text flex-nowrap margin-top-7">
-            <li data-dynamic-relative-time="{{ .String "published" | parseTime "rfc3339" | unix }}"></li>
-            <li>{{ .String "author" }}</li>
-          </ul>
-        </div>
-      </div>
-    {{ end }}
-    </div>
-```
+Strong archetype:
+- `glance-cowboy`
 
-Why it works:
-- width is used intentionally
-- frameless outer shell plus framed inner cards matches Glance patterns
-- avoids a fake standalone design language
+Traits:
+- validate required identifiers early
+- clamp percentages or prevent negative output where it matters
+- keep optional sections independent from core rendering
+- fail clearly instead of rendering broken values
 
-## Pattern 4: Reusable dual-mode widget
+## Pattern 6: Subrequest-Backed Summary
 
-Use for community widgets or project widgets that may live in either `small` or `full`.
+Use when one widget needs a main endpoint plus one small supporting endpoint.
 
-Pattern:
+Traits:
+- small number of supporting requests
+- response merge remains readable
+- no backend-like transformation layer is being recreated
 
-```yaml
-- type: custom-api
-  title: Queue
-  cache: 5m
-  url: https://${QUEUE_URL}/api/queue
-  options:
-    small-column: false
-    collapse-after: 5
-  template: |
-    {{ $small := .Options.BoolOr "small-column" false }}
-    <ul class="list {{ if $small }}list-gap-8{{ else }}list-gap-10{{ end }} collapsible-container" data-collapse-after="{{ .Options.IntOr "collapse-after" 5 }}">
-    {{ range .JSON.Array "items" }}
-      <li>
-        <a class="{{ if $small }}size-h5{{ else }}size-h4{{ end }} color-primary-if-not-visited block text-truncate" href="{{ .String "url" }}">{{ .String "title" }}</a>
-        <ul class="list-horizontal-text">
-          <li>{{ .String "status" }}</li>
-          <li data-dynamic-relative-time="{{ .String "updated" | parseTime "rfc3339" | unix }}"></li>
-        </ul>
-      </li>
-    {{ end }}
-    </ul>
-```
+If the widget grows beyond that, step back and reconsider whether the answer should be a suite or an extension.
 
-Use this when the same YAML should survive both project use and community sharing.
-
-## Pattern 5: Subrequest-backed summary
-
-Use when one widget needs two related endpoints but should still remain a single `custom-api` widget.
-
-```yaml
-- type: custom-api
-  title: Build Queue
-  cache: 2m
-  url: https://${CI_URL}/api/queue
-  subrequests:
-    stats:
-      url: https://${CI_URL}/api/queue/stats
-  template: |
-    {{ $stats := .Subrequest "stats" }}
-    <div class="margin-bottom-10">
-      <span class="color-highlight size-h3">{{ $stats.JSON.Int "running" }}</span>
-      <span class="color-subdue"> running</span>
-    </div>
-    <ul class="list list-gap-10">
-    {{ range .JSON.Array "items" }}
-      <li>{{ .String "name" }}</li>
-    {{ end }}
-    </ul>
-```
-
-Keep this restrained. If the widget needs complex merging, transformation, or nontrivial business logic, re-check whether it should remain `custom-api`.
-
-## Pattern 6: Long widget extracted with `$include`
+## Pattern 7: Long Widget Extracted With `$include`
 
 Use when:
-- the widget template is long
+- the template is long
 - the same widget is reused across pages
-- indentation would become fragile inline
+- indentation would be fragile inline
+- the output is meant to be shared or documented
 
 Pattern:
 
 ```yaml
 widgets:
-  - $include: widgets/media-stats.yml
+  - $include: widgets/my-widget.yml
 ```
 
-This is especially useful for community-friendly snippets and multi-page project configs.
+This is especially appropriate for community-targeted widgets and repo-quality packages.
+
+## Pattern Selection Heuristic
+
+Use this quick rule:
+- choose `small` utility monitors for compact operational data
+- choose `full` rich lists or cards when width materially improves the experience
+- choose dual-mode when the same widget should survive both placements
+- choose a suite when the service really has multiple distinct surfaces

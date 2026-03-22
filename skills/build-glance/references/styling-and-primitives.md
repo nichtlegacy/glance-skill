@@ -2,11 +2,11 @@
 
 Source:
 - `glance/docs/configuration.md`
-- `community-widgets/CONTRIBUTING.md`
+- representative upstream and local widget patterns
 
-Checked against upstream on 2026-03-20.
+Checked against upstream and local patterns on 2026-03-22.
 
-## First principle
+## First Principle
 
 Make the widget feel like Glance, not like an embedded mini app.
 
@@ -15,14 +15,38 @@ Prefer:
 - Glance spacing rhythm
 - theme-aware color classes and variables
 - simple list, card, and frame structures
+- native disclosure primitives
 
 Avoid:
 - borrowed internal CSS classes from unrelated built-in widgets
 - hardcoded colors unless explicitly required
 - large bespoke wrapper hierarchies
 - ornamental layout that ignores column width
+- inventing JS-like interaction when markup primitives already exist
 
-## Stable utility classes worth reusing
+## Native Disclosure Primitives
+
+Use these before inventing custom behavior:
+
+- `data-popover-type="text"`
+- `data-popover-type="html"`
+- `data-popover-html`
+- `data-popover-position`
+- `data-popover-show-delay`
+- `data-popover-max-width`
+- `<details>`
+- `collapsible-container`
+- `data-collapse-after`
+- `data-collapse-after-rows`
+- `data-dynamic-relative-time`
+
+General rule:
+- hover detail or tooltip-like context -> popover
+- explicit expand/collapse -> `<details>`
+- long lists -> collapse helpers
+- “updated x ago” style metadata -> relative-time helper
+
+## Stable Utility Classes Worth Reusing
 
 Typography and links:
 - `size-title-dynamic`
@@ -62,13 +86,7 @@ List and card structures:
 - `widget-content-frame`
 - `widget-small-content-bounds`
 
-Behavior helpers:
-- `collapsible-container`
-- `data-collapse-after`
-- `data-collapse-after-rows`
-- `data-dynamic-relative-time`
-
-## Theme-aware values
+## Theme-Aware Values
 
 Prefer these before fixed colors:
 - `color-primary`
@@ -84,7 +102,7 @@ Prefer these before fixed colors:
 - `var(--color-text-subdue)`
 - `var(--border-radius)`
 
-## Width-specific guidance
+## Width-Specific Guidance
 
 ### For `small`
 
@@ -97,7 +115,8 @@ Prefer:
 Avoid:
 - large card grids
 - tall decorative hero areas
-- three layers of nested wrappers just to align a stat block
+- heavy always-visible detail blocks
+- multiple layout systems nested just to align a simple stat surface
 
 ### For `full`
 
@@ -110,27 +129,36 @@ Prefer:
 Avoid:
 - stretching a tiny stats pattern until it feels empty
 - card density that collapses badly on mobile
+- using width for decoration rather than information
 
-## Custom CSS rules
+## Inline CSS And `<style>` Rules
 
-Use custom CSS only when utility classes and local inline styles are not enough.
+Inline CSS is acceptable when:
+- utility classes cannot express a small local need
+- the adjustment is tightly scoped
+- the markup still reads as Glance-native
 
-If custom classes are necessary:
-- suffix them with the widget name
-- keep them widget-local
-- do not assume internal Glance widget class names are stable
+A widget-local `<style>` block is acceptable when:
+- the same local class is reused several times inside one widget
+- utility classes alone would become more awkward than a tiny scoped stylesheet
+- the class names are widget-local and not borrowed from built-ins
 
-Community contribution guidance explicitly prefers applying necessary style directly to elements rather than depending on widget-specific CSS from built-in widgets.
+It becomes a problem when:
+- the CSS acts like a separate design system
+- most layout and spacing no longer come from native classes
+- small/full differences are implemented as separate CSS-heavy templates instead of options
 
-## Practical do and don't
+## Practical Do And Don't
 
 Do:
 - use `frameless: true` only when inner markup intentionally rebuilds the shell
 - use `list-horizontal-text` for lightweight metadata
 - use `cards-grid` only when the content benefits from width
 - expose density changes through `options` for reusable widgets
+- push secondary details into popovers or disclosure instead of always-visible clutter
 
 Do not:
 - use classes from other widgets just because they look right today
 - create a fake Tailwind-like system inside the template
 - hardcode local brand colors when semantic colors would work
+- preserve legacy style-heavy patterns as your default output
