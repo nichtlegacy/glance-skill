@@ -1,2 +1,1 @@
-Create a Glance widget that looks native to the platform. Use real Glance utility classes, spacing patterns, list or card primitives, and theme-aware variables. Do not borrow arbitrary CSS classes from unrelated built-in widgets.
-
+Create a Glance widget that looks native to the platform. Choose the upstream component family first, then use real Glance utility classes, spacing patterns, list or card primitives, and theme-aware variables. Do not borrow arbitrary CSS classes from unrelated built-in widgets or invent a foreign HTML structure.

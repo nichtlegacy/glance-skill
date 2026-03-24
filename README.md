@@ -14,10 +14,12 @@ After installation, restart Codex so the new skill is loaded.
 
 ## Knowledge Architecture
 
-`build-glance` now teaches from three distinct sources of truth:
+`build-glance` now teaches from four distinct sources of truth:
 
 - **Official Glance first**
-  Built-in widgets, page composition, native disclosure helpers, layout rules, and the real `custom-api`/`extension` boundary.
+  Built-in widgets, page composition, native disclosure helpers, layout rules, `docs/glance.yml`, and the real `custom-api`/`extension` boundary.
+- **Upstream template patterns**
+  Real component vocabulary from `internal/glance/templates`: shells, cards, lists, carousels, tabs, grouped links, masonry, and frameless inner-frame conventions.
 - **Own widget archetypes second**
   Modern patterns from the standalone `glance-*` repos plus representative `glance/widgets` examples.
 - **Community patterns third**
@@ -37,6 +39,8 @@ The result is intentionally `native-first`: built-ins and composition should win
 
 It is still authoring-first, but it now encodes stronger review guardrails through explicit Do/Don't references and eval cases.
 
+It also has a stronger design vocabulary now: not just "use native classes", but "choose the right upstream family" such as compact rows, rich lists, horizontal cards, grid cards, grouped tabs, split-column masonry, and grouped navigation blocks.
+
 ## Repository Layout
 
 ```text
@@ -49,6 +53,7 @@ fixtures/sample-output/ optional notes and review output
 
 Key reference blocks inside `skills/build-glance/references/`:
 - `native-capabilities.md`
+- `upstream-template-patterns.md`
 - `own-widget-patterns.md`
 - `community-patterns.md`
 - `dos-donts.md`
@@ -57,8 +62,11 @@ Key reference blocks inside `skills/build-glance/references/`:
 
 A good `build-glance` response should:
 - start with the lowest-complexity Glance primitive that actually solves the request
+- choose a real upstream component family before freehanding markup
 - use native composition and disclosure patterns before inventing custom behavior
 - reflect current repo-quality widget patterns such as `options`, `small-column`, `compact`, `collapse-after`, `show-*`, and resilient empty/error/configured states
+- know when `custom-api` should use `newRequest`, `withParameter`, JSON Lines, or a suite instead of a fake backend
+- treat `extension` as an explicit trust and maintenance boundary, not a convenience shortcut
 - package community widgets with complete env-var and repo guidance when requested
 - refuse to normalize avoidable anti-patterns
 
@@ -76,7 +84,10 @@ The eval set now covers these categories:
 - built-in versus `custom-api` capability choice
 - page composition and layout fit
 - native popover/disclosure patterns
+- upstream template family selection
 - dual-mode and suite architecture decisions
+- dynamic `custom-api` request chaining
+- extension maintenance and trust-boundary decisions
 - community packaging completeness
 - anti-pattern rejection and operational hygiene
 

@@ -3,14 +3,16 @@
 Source:
 - `glance/docs/configuration.md`
 - `glance/docs/custom-api.md`
-- official widget docs and examples in the upstream configuration guide
+- `glance/docs/extensions.md`
+- `glance/docs/glance.yml`
+- upstream widget templates and examples
 
-Checked against upstream on 2026-03-22.
+Checked against upstream on 2026-03-24.
 
 ## Native-First Rule
 
 Before recommending `custom-api`, check these layers in order:
-- built-in widget already exists
+- a built-in widget already exists
 - page composition solves the structure
 - native disclosure solves the interaction
 - only the data source is missing
@@ -111,11 +113,11 @@ Use:
 - `data-collapse-after`
 - `data-collapse-after-rows`
 
-These should usually replace hand-rolled “show more” logic in templates.
+These should usually replace hand-rolled "show more" logic in templates.
 
 ### Relative time
 
-Use `data-dynamic-relative-time` when the UI should show “updated 3m ago”-style output without custom client logic.
+Use `data-dynamic-relative-time` when the UI should show "updated 3m ago"-style output without custom client logic.
 
 ## Built-Ins Worth Reusing Before Custom Work
 
@@ -147,6 +149,22 @@ Start with these by intent:
   Scheduling and upcoming-event views.
 - `repository`
   Project/repo summaries that do not need custom fetching.
+- `html`
+  Static snippets or tightly controlled local markup.
+- `iframe`
+  Embedded external views only when native widgets are not the right surface.
+
+## What `docs/glance.yml` Teaches
+
+The official example is not just sample data, it is a page recipe:
+
+- one `Home` page
+- classic `small` / `full` / `small` structure
+- utility widgets such as `weather`, `markets`, and `releases` in the side rails
+- richer grouped content in the center `full` column
+- a note that a single-page setup can hide desktop navigation for a cleaner layout
+
+Treat that example as the canonical starter composition before inventing custom page skeletons.
 
 ## Native-First Decision Hints
 
@@ -165,6 +183,7 @@ Prefer `extension` only when:
 - the service already emits trusted HTML
 - server-side aggregation is truly required
 - `custom-api` would become awkward, misleading, or unsafe
+- you are willing to accept the maintenance burden of Glance's still-evolving extension protocol
 
 ## Important Nesting And Layout Limits
 
@@ -178,7 +197,7 @@ Keep these rules in mind:
 
 ## Reusable Mindset
 
-The right question is usually not “how do I custom-build this?” but:
+The right question is usually not "how do I custom-build this?" but:
 - can Glance already display this natively?
 - can I compose existing widgets to get the desired result?
 - can I use native disclosure to keep the layout clean?

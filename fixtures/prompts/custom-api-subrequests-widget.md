@@ -1,1 +1,1 @@
-Create a Glance `custom-api` widget that needs one main API response plus one small supporting API response. Use `subrequests` only where that actually makes sense, keep the widget operationally simple, and avoid turning the config into a fake backend.
+Create a Glance `custom-api` widget that needs one main API response plus one small supporting API response. Use `subrequests` only where that actually makes sense, keep the widget operationally simple, choose a fitting native layout family for the target slot, and avoid turning the config into a fake backend.

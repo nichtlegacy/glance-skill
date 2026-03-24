@@ -188,6 +188,38 @@
         "Uses options rather than file forks when dual-mode is appropriate",
         "Matches density to the chosen column fit"
       ]
+    },
+    {
+      "id": "custom-api-dynamic-request-chain",
+      "category": "custom-api",
+      "prompt_file": "../fixtures/prompts/custom-api-dynamic-request-chain.md",
+      "must_haves": [
+        "Uses template-side requests such as newRequest, withParameter, withHeader, or getResponse when the second request depends on the first",
+        "Manually checks the status code of the dynamic request",
+        "Avoids introducing a companion backend for a short request chain",
+        "Keeps the widget Glance-native and copy-pasteable"
+      ]
+    },
+    {
+      "id": "upstream-template-pattern-choice",
+      "category": "design",
+      "prompt_file": "../fixtures/prompts/upstream-template-pattern-choice.md",
+      "must_haves": [
+        "Chooses a real upstream component family such as compact rows, rich lists, horizontal cards, grid cards, grouped tabs, or grouped links",
+        "Matches the chosen family to the target slot such as small, full, or head-widgets",
+        "Uses Glance-native frame, list, card, or disclosure primitives instead of arbitrary bespoke markup"
+      ]
+    },
+    {
+      "id": "extension-maintenance-boundary",
+      "category": "extension",
+      "prompt_file": "../fixtures/prompts/extension-maintenance-boundary.md",
+      "must_haves": [
+        "Mentions that extensions are work in progress and extension authors maintain them",
+        "Mentions allow-potentially-dangerous-html as a trust boundary",
+        "Mentions that html is currently the only supported extension content type",
+        "Mentions cache guidance such as the 30m default or 1s during development"
+      ]
     }
   ]
 }

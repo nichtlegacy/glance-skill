@@ -1,2 +1,1 @@
-I want a Glance widget that renders HTML coming from my own service, and the service already does server-side aggregation and formatting. Decide whether this should be `custom-api` or `extension`, then give me the correct Glance config and the contract my service must satisfy.
-
+I want a Glance widget that renders HTML coming from my own service, and the service already does server-side aggregation and formatting. Decide whether this should be `custom-api` or `extension`, then give me the correct Glance config, the contract my service must satisfy, and the safest Glance-native way to reuse existing utilities without treating extension HTML like a separate app shell.

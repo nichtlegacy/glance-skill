@@ -1,10 +1,31 @@
 # Pages And Layouts
 
-## Compose pages like Glance already does
+Source:
+- `glance/docs/glance.yml`
+- `glance/internal/glance/templates/page.html`
+- `glance/internal/glance/templates/page-content.html`
+
+Checked against upstream on 2026-03-24.
+
+## Compose Pages Like Glance Already Does
 
 When building a page, start from upstream composition patterns instead of inventing a random layout.
 
-## Strong upstream patterns
+## Strong Upstream Patterns
+
+### Official starter pattern
+
+The canonical `docs/glance.yml` example is:
+- one `Home` page
+- `small` / `full` / `small`
+- compact utility rails
+- richer grouped content in the center
+
+Use it when the user wants:
+- a general home dashboard
+- clear utility sidebars
+- one content spine in the middle
+- an immediately recognizable Glance layout
 
 ### Startpage pattern
 
@@ -28,7 +49,7 @@ Use when the user wants a balanced dashboard:
 - center `full` column for content-heavy widgets
 - right `small` column for supporting widgets
 
-This is how many official and preconfigured examples are structured.
+This is the strongest default for mixed utility plus content dashboards.
 
 ### Wide split-column pattern
 
@@ -39,7 +60,7 @@ Use `width: wide` plus `split-column` when the user wants a denser content surfa
 
 Do not force `wide` if the content would work fine with the default width.
 
-## Head widgets
+## Head Widgets
 
 `head-widgets` sit above the columns and span the combined width.
 
@@ -52,7 +73,9 @@ Bad candidates:
 - cramped widgets with lots of dense vertical text
 - widgets that are only useful in a narrow column
 
-## Group widget
+Use head widgets to establish the page mood or primary discovery band before the column content starts.
+
+## Group Widget
 
 Use `group` when multiple related widgets should share one slot via tabs.
 
@@ -60,13 +83,14 @@ Good uses:
 - several subreddits
 - multiple news feeds of the same kind
 - alternate views of one topic
+- overview versus live view within the same slot
 
 Constraints:
 - you cannot place a `group` inside a `group`
 - you cannot place a `split-column` inside a `group`
 - you cannot hide the header of a `group`
 
-## Split-column widget
+## Split-Column Widget
 
 Use `split-column` to place widgets side by side within a `full` column.
 
@@ -80,7 +104,7 @@ Rules:
 - `split-column` cannot live inside `group`
 - prefer it in `full` columns, not as a mental substitute for Glance's actual page columns
 
-## Mobile and density heuristics
+## Mobile And Density Heuristics
 
 Always assume the layout will collapse on mobile.
 
@@ -89,8 +113,23 @@ Practical heuristics:
 - keep `small` columns utility-focused
 - avoid stacking multiple huge card grids in one page unless the page is explicitly content-first
 - prefer `collapse-after` or `collapse-after-rows` on long lists
+- remember that mobile navigation emphasizes column switching, so each column should feel coherent on its own
 
-## YAML reuse
+## Intentional Page Composition
+
+Make the page feel curated, not shuffled.
+
+Useful mental model:
+- left rail: quick scan, status, utility, weather, releases
+- center spine: feed, media, recent activity, grouped content
+- right rail: supporting utilities, markets, secondary monitoring, bookmarks
+
+When the page gets too dense:
+- move broad visual widgets into `head-widgets`
+- use `group` instead of stacking alternate views
+- use `split-column` inside the center `full` column rather than inventing custom grids
+
+## YAML Reuse
 
 When a page repeats similar widget settings, use YAML anchors instead of copy-pasting blocks.
 
@@ -99,7 +138,7 @@ This is especially useful for:
 - multi-column repeated widgets
 - repeated `custom-api` widget templates with different options
 
-## Canonical page blocks
+## Canonical Page Blocks
 
 ### Minimal startpage block
 

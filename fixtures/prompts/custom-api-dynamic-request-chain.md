@@ -1,0 +1,1 @@
+Create a Glance `custom-api` widget where the first API response gives you an ID and the second API request uses that ID to fetch the real content. Keep the request chain short and operationally sane, manually account for response status, and render the result with a real Glance row, list, or card family instead of inventing a mini app.

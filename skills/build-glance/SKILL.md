@@ -9,8 +9,9 @@ description: Build practical, native-first Glance YAML that prefers built-in wid
 
 Build Glance artifacts that feel like they belong in upstream Glance first, your own widget ecosystem second, and the community-widgets world third.
 
-The skill now uses three distinct knowledge sources:
+The skill now uses four distinct knowledge sources:
 - official Glance capabilities and layout rules
+- upstream template and component patterns from `internal/glance/templates`
 - proven patterns from your current `glance-*` widget repos plus representative `glance/widgets` examples
 - community packaging and shareability patterns
 
@@ -26,11 +27,13 @@ Default posture: `native-first`, not `custom-api-first`.
    Preferred order: built-ins and composition, then `custom-api`, then `extension`.
 4. If `custom-api` is justified, choose the right shape.
    Decide whether the result should be `small`, `full`, `dual-mode`, or a suite of widgets rather than a monolith.
-5. Ground the answer in the right pattern source.
-   Use upstream references for capability truth, your own widget archetypes for project-quality patterns, and community references for shareable packaging expectations.
-6. Produce paste-ready output.
+5. Choose the right upstream component family.
+   Pick the real Glance pattern that best fits the slot: compact rows, rich lists, horizontal cards, grid cards, tabs, grouped links, split-column masonry, or centered utility blocks.
+6. Ground the answer in the right pattern source.
+   Use upstream references for capability truth and component vocabulary, your own widget archetypes for project-quality patterns, and community references for shareable packaging expectations.
+7. Produce paste-ready output.
    Return valid Glance YAML first, then env vars, README/meta/preview guidance, or rationale text only as needed.
-7. Run the guardrails.
+8. Run the guardrails.
    Check `dos-donts.md` and `quality-checklist.md` before finishing.
 
 ## Native-First Decision
@@ -48,6 +51,7 @@ Read first:
 - `references/native-capabilities.md`
 - `references/widget-catalog.md`
 - `references/pages-and-layouts.md`
+- `references/upstream-template-patterns.md`
 - `references/page-recipes.md` when the request is page-level
 
 ## Custom API Path
@@ -62,6 +66,7 @@ When you stay on this path, read:
 - `references/custom-api-core.md`
 - `references/custom-api-patterns.md`
 - `references/styling-and-primitives.md`
+- `references/upstream-template-patterns.md`
 - `references/own-widget-patterns.md`
 - `references/operational-notes.md` when env vars, cache, secrets, includes, or reload behavior matter
 
@@ -115,8 +120,24 @@ Always explain why `custom-api` is insufficient.
 
 Read:
 - `references/boundary-extension.md`
+- `references/upstream-template-patterns.md`
 - `references/native-capabilities.md`
 - `references/community-packaging.md` only if the user also wants repo/docs guidance around the service
+
+## Component-First Composition
+
+After choosing the primitive, choose the visual family before writing markup.
+
+Strong upstream families:
+- compact rows for utility/status widgets
+- rich vertical lists for feeds and recent activity
+- horizontal cards for broad media or discovery surfaces
+- grid cards for full-width browsing
+- grouped tabs through `group`
+- grouped links for startpages and launchers
+- centered utility blocks for concise `small` widgets
+
+Be creative by recombining official Glance families, not by inventing foreign HTML structures.
 
 ## Output Rules
 
@@ -125,6 +146,7 @@ Read:
 - Use real widget types and real config keys
 - Follow upstream layout and naming patterns
 - Prefer built-ins and composition before custom work
+- Prefer real upstream component families before bespoke wrapper hierarchies
 - Use utility classes, theme-aware variables, and native disclosure helpers before bespoke CSS
 - Keep templates readable after one pass
 
@@ -133,6 +155,7 @@ Read:
 - Expose likely variations through `options`
 - Prefer one adaptable template over separate small/full files when options are enough
 - Use `small-column`, `compact`, `collapse-after`, `show-*`, or a small number of semantic `layout`/`style` options
+- Use `frameless: true` only when the inner markup intentionally rebuilds the widget from Glance-native inner frames
 - Use `$include` or YAML anchors when that reduces repetition cleanly
 
 ### Prefer resilient rendering
@@ -167,6 +190,8 @@ Start narrow. Do not load every reference by default.
   Reusable custom widget shapes, including dual-mode and suite decisions.
 - `references/styling-and-primitives.md`
   Utility classes, disclosure patterns, spacing primitives, and CSS boundaries.
+- `references/upstream-template-patterns.md`
+  Real component families from upstream templates: shell patterns, tabs, masonry, rows, lists, cards, and grouped navigation blocks.
 - `references/community-packaging.md`
   `README.md`, `preview.png`, `meta.yml`, and community-shareable output expectations.
 - `references/boundary-extension.md`
@@ -188,6 +213,7 @@ Start narrow. Do not load every reference by default.
 - Recommending `extension` without proving why `custom-api` is insufficient
 - Returning invalid widget nesting or impossible page layouts
 - Duplicating separate small/full templates where options would be cleaner
+- Writing arbitrary bespoke HTML when an upstream template family already fits
 - Hardcoding local IPs, domains, ports, or literal API keys in examples
 - Using unstable CSS classes borrowed from unrelated built-in widgets
 - Inventing custom JS-like interaction instead of native popovers, `<details>`, or collapse helpers
@@ -199,6 +225,7 @@ Start narrow. Do not load every reference by default.
 A finished result should:
 - choose the correct Glance primitive for the request
 - argue from native-first capability truth when that decision matters
+- choose a real upstream component family rather than freehanding the markup
 - fit the intended `small`, `full`, `dual-mode`, or suite shape
 - feel upstream-native in layout and styling
 - reflect your current widget-quality patterns rather than legacy defaults

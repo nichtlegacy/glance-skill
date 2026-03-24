@@ -1,0 +1,1 @@
+Build a Glance widget that feels distinctly native. Before writing markup, choose the upstream component family that best fits the surface, such as compact rows, a rich list, horizontal cards, grid cards, grouped tabs, or grouped links, then match it to the intended slot and shell choice, and implement the widget with that pattern.

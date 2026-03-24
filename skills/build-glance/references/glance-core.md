@@ -1,5 +1,11 @@
 # Glance Core
 
+Source:
+- `glance/docs/configuration.md`
+- `glance/docs/glance.yml`
+
+Checked against upstream on 2026-03-24.
+
 ## Top-level structure
 
 Glance is configured with YAML. The core top-level entry for dashboard content is `pages`.
@@ -24,6 +30,8 @@ Related top-level configuration also exists for:
 
 Use those only when the task clearly calls for them.
 
+The official `docs/glance.yml` starter also reinforces that most dashboard work should begin at `pages`, not at top-level styling tweaks.
+
 ## Pages
 
 Important page properties:
@@ -46,6 +54,7 @@ Practical guidance:
 - use `slim` for focused startpages and search-first pages
 - use `wide` only when the content density actually needs it
 - use `head-widgets` sparingly for broad, visually horizontal widgets such as markets, videos, or RSS card layouts
+- if there is only one page, `hide-desktop-navigation: true` can produce a cleaner layout
 
 ## Columns
 
@@ -106,4 +115,3 @@ Useful runtime behavior to remember:
 - invalid config on startup exits with an error
 - invalid config after a successful run leaves the previous config active
 - frequent reloads clear cache and may trigger upstream API rate limits
-

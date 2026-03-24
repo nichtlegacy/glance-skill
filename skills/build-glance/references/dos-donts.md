@@ -6,6 +6,7 @@ Use this file as the final guardrail before returning a Glance answer.
 
 - Start with a native-first capability check.
 - Prefer built-ins, `group`, `split-column`, `head-widgets`, and grouped bookmarks before `custom-api`.
+- Choose a real upstream component family before writing bespoke markup.
 - Use native disclosure patterns such as `data-popover-*`, `<details>`, `collapsible-container`, and relative-time helpers.
 - Use environment variables for URLs, hosts, ports, tokens, and secrets.
 - Expose reusable behavior through `options` such as `small-column`, `compact`, `collapse-after`, and `show-*`.
@@ -20,6 +21,7 @@ Use this file as the final guardrail before returning a Glance answer.
 - Do not default to `custom-api` when a built-in widget or page recipe already fits.
 - Do not recommend `extension` unless you clearly explain why `custom-api` is insufficient.
 - Do not fork separate small/full templates when one template plus `options` would be cleaner.
+- Do not invent arbitrary foreign HTML structures when rows, lists, cards, `group`, or `split-column` already fit.
 - Do not depend on unrelated built-in widget CSS classes or unstable internal selectors.
 - Do not invent custom JavaScript-like interaction in templates when native popovers or disclosure already exist.
 - Do not create a large bespoke CSS system if utility classes and a few local styles are enough.
@@ -32,6 +34,7 @@ Inline CSS is acceptable when:
 - Glance utility classes do not cover a small local need
 - the styling is tightly scoped to one element or one widget-local class
 - the same effect would be awkward or impossible with native classes alone
+- frameless widgets still rebuild themselves from native inner frames rather than from a separate mini design system
 
 Inline CSS is a smell when:
 - it becomes the main layout system

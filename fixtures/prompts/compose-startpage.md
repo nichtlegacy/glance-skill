@@ -1,2 +1,1 @@
-Create a minimal Glance browser startpage with a search bar, a compact service monitor, and grouped bookmarks. It should feel intentional and clean, not overloaded, and it should follow the official Glance startpage pattern closely.
-
+Create a minimal Glance browser startpage with a search bar, a compact service monitor, and grouped bookmarks. Follow the official slim, centered startpage pattern closely, keep the primary surface in a single `full` column, and use native grouped links or compact rows instead of custom layout tricks. It should feel intentional and clean, not overloaded.

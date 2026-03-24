@@ -13,6 +13,7 @@ Run this before finalizing any non-trivial result.
 - Is this best as `small`, `full`, `dual-mode`, or a widget suite?
 - Did you avoid creating a monolith when overview/live/recent surfaces should be separate?
 - Did you avoid separate small/full file forks when options would be cleaner?
+- Did you choose a real upstream component family such as compact rows, rich lists, horizontal cards, grid cards, tabs, or grouped links?
 
 ## Config Validity
 
@@ -26,6 +27,7 @@ Run this before finalizing any non-trivial result.
 
 - Does the output feel Glance-native?
 - Does it use real utility classes and theme-aware values before bespoke styling?
+- Does it reuse a fitting upstream shell pattern such as the default frame or frameless plus inner frames?
 - Is the content density suitable for the intended column width?
 - Does the layout still make sense on mobile collapse?
 - Did you use native disclosure such as `data-popover-*`, `<details>`, or collapse helpers where appropriate?
@@ -38,6 +40,8 @@ Run this before finalizing any non-trivial result.
 - Is the result still copy-pasteable?
 - Did you avoid adding a companion service unless it is justified?
 - If `skip-json-validation` is used, is the reason explicit?
+- If template-side requests are used, is the request chain short and are status codes checked manually?
+- If `extension` is used, did you mention the maintenance burden, `allow-potentially-dangerous-html`, and the HTML-only content type?
 
 ## Community Packaging
 

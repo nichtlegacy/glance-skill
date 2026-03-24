@@ -1,2 +1,1 @@
-Build a full-width Glance widget for rich media content such as recent videos or recently added items. Use a layout that actually benefits from width, stays Glance-native, and would feel wrong if squeezed into a small column.
-
+Build a full-width Glance widget for rich media content such as recent videos or recently added items. Choose a layout family that actually benefits from width, such as horizontal cards, grid cards, or a rich vertical list, and use frameless plus inner frames only when that shell choice is intentional. It should stay Glance-native and feel wrong if squeezed into a small column.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Build Glance"
-  short_description: "Build Glance custom-api widgets and pages"
-  default_prompt: "Use $build-glance to build a polished, Glance-native custom-api widget or page."
+  short_description: "Build Glance-native pages, widgets, and component patterns"
+  default_prompt: "Use $build-glance to build a polished, Glance-native page, widget, or community package using official layout primitives, template patterns, and the right custom-api/extension boundary."

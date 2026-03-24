@@ -1,2 +1,1 @@
-Build a complete Glance page for a selfhosted homelab. I want it to feel coherent, not random: quick utility/status widgets in narrow space, richer content in the main area, and a layout that still degrades well on mobile. Use upstream Glance layout patterns instead of inventing your own dashboard system.
-
+Build a complete Glance page for a selfhosted homelab. Use an upstream page recipe such as the official `small`/`full`/`small` pattern or a deliberate `wide` plus `split-column` variant, keep each rail coherent, and use `head-widgets`, `group`, or `split-column` only where they truly fit. The result should feel curated, not like a random dashboard system.
